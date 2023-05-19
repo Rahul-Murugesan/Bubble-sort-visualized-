@@ -1,26 +1,41 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void visualizer(vector<int> data)
+void visualizer(vector<int> data, int point1 = -1, int point2 = -1)
 {
     int m = *max_element(data.begin(), data.end());
-    vector<vector<char>> vis(m, vector<char>(data.size(), ' '));
-    for(int i=0; i<data.size(); i++)
+    for(int i=0; i<m; i++)
     {
-        for(int j = (m-data[i]); j<m; j++)
+        for(int j=0; j<data.size(); j++)
         {
-            vis[j][i] = '|';
-        }
-    }
-    for(auto i:vis)
-    {
-        for(auto j:i)
-        {
-            cout << j << " ";
+            if((m-data[j]) <= i)
+            {
+                cout << "|";
+            }
+            else
+            {
+                cout << " ";
+            }
         }
         cout << endl;
     }
-    cout << "-----------------------------------" << endl;
+    for(int i=0; i<=max(point1, point2); i++)
+    {
+        if(i == point1)
+        {
+            cout << "^";
+        }
+        else if(i == point2)
+        {
+            cout << "^";
+        }
+        else
+        {
+            cout << " ";
+        }
+    }
+    cout << "\n-----------------------------------" << endl;
+    sleep(3);
 }
 
 vector<int> bsort(vector<int> arr)
@@ -29,13 +44,17 @@ vector<int> bsort(vector<int> arr)
     {
         for(int j=0; j<arr.size()-i-1; j++)
         {
+            system("clear");
             cout << "comparing " << arr[j] << " with " << arr[j+1] << endl;
+            visualizer(arr, j, j+1);
             if(arr[j] > arr[j+1])
             {
-                cout << "Swaping" << endl;
                 swap(arr[j+1], arr[j]);
+                system("clear");
+                cout << "comparing " << arr[j] << " with " << arr[j+1] << endl;
+                cout << "Swapped" << endl;
+                visualizer(arr, j, j+1);
             }
-            visualizer(arr);
         }
     }
     return arr;
@@ -43,9 +62,11 @@ vector<int> bsort(vector<int> arr)
 
 int main() {
     
-    vector<int> inp{3, 5, 1, 4, 1};
+    vector<int> inp{8, 4, 25, 20, 13, 14, 10};
     cout << "Original array: " << endl;
     visualizer(inp);
-    bsort(inp);
+    inp = bsort(inp);
+    cout << "After Sorting: " << endl;
+    visualizer(inp);
     return 0;
 }
